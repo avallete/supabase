@@ -3137,6 +3137,24 @@ commands:
               ]
             }
           ]
+      - id: ci-cd-usage
+        name: Usage in CI/CD pipeline for early exit
+        code: supabase db lint --fail-on warning
+        response: |
+          Linting schema: public
+          [
+            {
+              "function": "public.search",
+              "issues": [
+                {
+                  "level": "warning",
+                  "message": "unused variable \"_userid\"",
+                  "sqlState": "00000"
+                }
+              ]
+            }
+          ]
+          fail-on is set to warning, non-zero exit      
     tags: []
     links: []
     usage: supabase db lint [flags]
@@ -3170,6 +3188,21 @@ commands:
         name: -s, --schema <strings>
         description: Comma separated list of schema to include.
         default_value: '[]'
+      - id: fail-on
+        name: --fail-on <[ none | warning | error ]>
+        description: |
+          Controls when the command should exit with a non-zero status code.
+        default_value: none
+        accepted_values:
+          - id: none
+            name: none
+            type: '[ none | warning | error ]'
+          - id: warning
+            name: warning
+            type: '[ none | warning | error ]'
+          - id: error
+            name: error
+            type: '[ none | warning | error ]'
   - id: supabase-db-dump
     title: supabase db dump
     summary: Dumps data or schemas from the remote database
